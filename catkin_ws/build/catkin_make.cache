@@ -1,0 +1,2 @@
+turtlesim_control
+-DCATKIN_DEVEL_PREFIX=/home/tmedeiros/ex3/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/tmedeiros/ex3/catkin_ws/install -G Unix Makefiles

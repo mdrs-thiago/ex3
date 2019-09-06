@@ -1,0 +1,9 @@
+<launch>
+
+    <node name="my_turtle" pkg="turtlesim" type="turtlesim_node"/>
+
+    <node name="control" pkg="turtlesim_control"  type="turtlenator.py" />
+
+    <node name="goal" pkg="turtlesim_control"  type="sendGoal.py" />
+
+</launch>
