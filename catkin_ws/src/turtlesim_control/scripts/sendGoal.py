@@ -6,7 +6,7 @@ import angles
 import math as m
 from turtlesim.msg import Pose
 import random
-import time
+
 
 Xp=0
 Yp=0
@@ -24,30 +24,28 @@ def callback_pose(data):  # associated with subscriber pose
 
 def main():
   #init publisher
-  rospy.init_node('sendGoal', anonymous=True)
-  pub= rospy.Publisher('/goal', Pose2D, queue_size=10)
-  rospy.Subscriber("/turtle1/pose", Pose, callback_pose)
-  Xg = random.uniform(0,8)
-  Yg = random.uniform(0,8)
-  newGoal = Pose2D()
+  rospy.init_node('sendGoal', anonymous=True)		#Our created node 
+  pub= rospy.Publisher('/goal', Pose2D, queue_size=10)	#The node should publish to /goal
+  rospy.Subscriber("/turtle1/pose", Pose, callback_pose)#And subscribe to turtle1/pose, in order to verify the distance. 
+  Xg = random.uniform(0,8)				#First, we create a new int coordinate X.
+  Yg = random.uniform(0,8)				#And a int coordinate Y.
+  newGoal = Pose2D()					#The new goal type message is Pose2D(), so we create it.
   newGoal.x = Xg
   newGoal.y = Yg
   r=rospy.Rate(10)# ROS rate 10Hz
  
   #ros running
   while not rospy.is_shutdown():
-    pub.publish(newGoal)
-    Dist=m.sqrt((Xg-Xp)**2+(Yg-Yp)**2) #calculate Distance 
-    print(Dist)
-    if Dist < 0.1:
-      Xg = random.uniform(0,8)
-      Yg = random.uniform(0,8)
+    pub.publish(newGoal)				#We first publish the topic
+    Dist=m.sqrt((Xg-Xp)**2+(Yg-Yp)**2) 			#Calculate distance 
+
+    if Dist < 0.1:					#Check if the distance is close to actual goal position
+      Xg = random.uniform(0,8)				#If so, create a new coordinate X 
+      Yg = random.uniform(0,8)				#And a new coordinate Y to the goal position.
       newGoal.x = Xg 
       newGoal.y = Yg
-      print('----------')
-      print(newGoal)
-      print('----------')
-      pub.publish(newGoal)
+
+      pub.publish(newGoal)				#Publish a new goal position and go back do the main loop
 
   r.sleep() # so the CPU dont reach 100%
     
